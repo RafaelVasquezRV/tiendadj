@@ -10,7 +10,12 @@
 <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-auth-compat.js"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
+    //import { initializeApp } from "firebase/app";
+    //function loginGoogle() {
     const firebaseApp = firebase.initializeApp({ 
         apiKey: "AIzaSyCqYyo8rP5ioMZqHgsucGjVtFwlUOqe0hw",
         authDomain: "django-pro-e828e.firebaseapp.com",
@@ -31,11 +36,23 @@
               var credential = result.credential;
 
               // This gives you a Google Access Token. You can use it to access the Google API.
-              var token = credential.accessToken;
+              var token = credential.idToken;
               // The signed-in user info.
               var user = result.user;
-              console.log('******************')
-              console.log(token)
+              // recuperar id toke user
+              user.getIdToken().then(
+                function(idToken) {
+                    console.log(idToken)
+                    var data = {'token_id': idToken}
+                    axios.post('api/google-login/', data).then(
+                      function(response) {
+                        console.log(response);
+                      }
+                    )
+                }).catch(function(error) {
+                    // Handle error
+                }
+             )              
               // ...
           }).catch((error) => {
               // Handle Errors here.

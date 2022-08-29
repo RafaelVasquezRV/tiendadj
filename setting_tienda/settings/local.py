@@ -1,6 +1,10 @@
 from .base import *
 from .db import *
 
+#
+import firebase_admin
+from firebase_admin import credentials, auth
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -15,3 +19,6 @@ DATABASES = DB_POSTGRESQL
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+cred = credentials.Certificate("fbkey.json")
+firebase_admin.initialize_app(cred)
